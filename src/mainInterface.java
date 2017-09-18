@@ -4,6 +4,8 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class mainInterface {
+	
+	
 	public static void main(String[] args){
 		Scanner input = new Scanner(System.in);
 		
@@ -32,11 +34,15 @@ public class mainInterface {
 		double resMultiplier = nextPowerOf2(Double.valueOf(input.nextLine()));
 		
 		System.out.println("\n\nType \"MSAA\" Or \"SSAA\" To Choose Anti-Aliasing Method:");
+		System.out.println("\n	NONE: ");
+		System.out.println("		1. Much Faster.");
+		System.out.println("		2. Misses Pixels On Some Lines.");
+		System.out.println("		3. Edges Are Very Jagged.");
 		System.out.println("\n	MSAA (Default): ");
 		System.out.println("		1. Slightly Faster. ");
 		System.out.println("		2. Looks Much Better For Thin Lines. ");
 		System.out.println("		3. Does Not Look As Good For Bigger Shapes. ");
-		System.out.println("\n	SSAA (Alpha): ");
+		System.out.println("\n	SSAA (Beta): ");
 		System.out.println("		1. Slightly Slower. ");
 		System.out.println("		2. Looks Very Faint For Thin Lines. (Less Than or Greater Than Is Strongly Recomended)");
 		System.out.println("		3. Smooths Out Edges Much Better For Bigger Shapes. ");
@@ -47,14 +53,16 @@ public class mainInterface {
 			String aaMethod = input.nextLine();
 			if(aaMethod.toLowerCase().charAt(0) == 's'){
 				ssaa = true;
-				System.out.println("\n(Answer Must Be A Power Of 2 Or 0 For No SSAA)");
+				System.out.println("\n(Answer Must Be A Power Of 2)");
 				System.out.print("Enter SSAA Sample Multiplier: ");
+			} else if (aaMethod.toLowerCase().charAt(0) == 'n') {
+				printGrid(equation,maxX,minX,maxY,minY,0,resMultiplier,false);
 			} else {
-				System.out.println("\n(Answer Must Be A Power Of 2 Or 0 For No MSAA)");
+				System.out.println("\n(Answer Must Be A Power Of 2)");
 				System.out.print("Enter MSAA Sample Multiplier: ");
 			}
 		} catch (Exception e){
-			System.out.println("\n(Answer Must Be A Power Of 2 Or 0 For No MSAA)");
+			System.out.println("\n(Answer Must Be A Power Of 2)");
 			System.out.print("Enter MSAA Sample Multiplier: ");
 		}
 		
@@ -80,11 +88,15 @@ public class mainInterface {
 		
 		frame.setResizable(false);
 		
-		frame.setSize((int) (800*((maxX-minX)/(maxY-minY))),(800));
-
+		if ((maxX-minX)<(maxY-minY)){
+			frame.setSize((int) (800*((maxX-minX)/(maxY-minY))),(800));
+		} else {
+			frame.setSize((800),(int) (800*((maxY-minY)/(maxX-minX))));
+		}
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	    frame.setLayout(new GridLayout((int) (Math.abs(minY*resMultiplier)+Math.abs(maxY*resMultiplier)+1), (int) (Math.abs(minX*resMultiplier)+Math.abs(maxX*resMultiplier)+1)));
+	    
 	    
 		Color color = null;
 		boolean skipFail;
@@ -110,9 +122,10 @@ public class mainInterface {
 			frame.setTitle(titlePercent.getText());
 			for(double x = minX; x <= maxX; x+=stepMultiplier){
 				JPanel tempj = new JPanel();
+				tempj.setDoubleBuffered(true);
 				op = 0;
 				skipFail = true;
-				if (!ssaa && decimal!=0){
+				if (!ssaa){
 					if(Calculator.calculateXYFunction(input, (x), (y))){
 						op = 255;
 						skipFail = false;
