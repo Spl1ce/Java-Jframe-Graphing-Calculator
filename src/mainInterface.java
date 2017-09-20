@@ -1,102 +1,140 @@
 import java.awt.*;
-import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 public class mainInterface {
 	
+	static JTextField equation, width, height, res, aaMult;
+	static JComboBox<String> antiAlaising;
+	
+	static int percent;
+	
+	static JFrame menu = new JFrame("Graphing Calculator Menu");
+	static JDialog frame;
+	
 	
 	public static void main(String[] args){
-		Scanner input = new Scanner(System.in);
+		menu.getContentPane().setLayout(null);
 		
-		System.out.println("Cool Equations:");
-		System.out.println("	1. x^2 + y^2 < 16. (8 by 8 Circle)");
-		System.out.println("	2. (x^2 + y^2-1)^3-x^2*y^3 < 0. (A 4 by 4 Heart)");
+		menu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		menu.setSize(600, 800);
+		menu.setResizable(false);
 		
-		System.out.println("\n---MATH---");
-		System.out.print("Enter X/Y Equation: ");
-		String equation = input.nextLine();
+		JLabel equationText = new JLabel("Equation:");
+		equationText.setFont(new Font("Arial", Font.BOLD, 24));
+		equationText.setBounds(50,53,125,35);
+		menu.add(equationText);
 		
-		System.out.println("\n\n---DISPLAY DIMENSIONS---");
-		System.out.print("Enter Maximum X Cordinate: ");
-		double maxX = Double.valueOf(input.nextLine());
-		System.out.print("\nEnter Minimum X Cordinate: ");
-		double minX = Double.valueOf(input.nextLine());
-		System.out.print("\nEnter Maximum Y Cordinate: ");
-		double maxY = Double.valueOf(input.nextLine());
-		System.out.print("\nEnter Minimum Y Cordinate: ");
-		double minY = Double.valueOf(input.nextLine());
+		equation = new JTextField(10);
+		equation.setFont(new Font("Arial", Font.PLAIN, 24));
+		equation.setBounds(200,50,325,35);
+		menu.add(equation);
 		
-		System.out.println("\n\n---MISC. VISUAL SETTINGS---");
-		System.out.println("\n(Answer Must Be A Power Of 2)");
-		System.out.println("(Preformance Hit Is Huge)");
-		System.out.print("Internal Resolution Multiplier: ");
-		double resMultiplier = nextPowerOf2(Double.valueOf(input.nextLine()));
 		
-		System.out.println("\n\nType \"MSAA\" Or \"SSAA\" To Choose Anti-Aliasing Method:");
-		System.out.println("\n	NONE: ");
-		System.out.println("		1. Much Faster.");
-		System.out.println("		2. Misses Pixels On Some Lines.");
-		System.out.println("		3. Edges Are Very Jagged.");
-		System.out.println("\n	MSAA (Default): ");
-		System.out.println("		1. Slightly Faster. ");
-		System.out.println("		2. Looks Much Better For Thin Lines. ");
-		System.out.println("		3. Does Not Look As Good For Bigger Shapes. ");
-		System.out.println("\n	SSAA (Beta): ");
-		System.out.println("		1. Slightly Slower. ");
-		System.out.println("		2. Looks Very Faint For Thin Lines. (Less Than or Greater Than Is Strongly Recomended)");
-		System.out.println("		3. Smooths Out Edges Much Better For Bigger Shapes. ");
-		System.out.print("\nEnter Anti-Aliasing Method: ");
-		boolean ssaa = false;
 		
-		try {
-			String aaMethod = input.nextLine();
-			if(aaMethod.toLowerCase().charAt(0) == 's'){
-				ssaa = true;
-				System.out.println("\n(Answer Must Be A Power Of 2)");
-				System.out.print("Enter SSAA Sample Multiplier: ");
-			} else if (aaMethod.toLowerCase().charAt(0) == 'n') {
-				printGrid(equation,maxX,minX,maxY,minY,0,resMultiplier,false);
-			} else {
-				System.out.println("\n(Answer Must Be A Power Of 2)");
-				System.out.print("Enter MSAA Sample Multiplier: ");
-			}
-		} catch (Exception e){
-			System.out.println("\n(Answer Must Be A Power Of 2)");
-			System.out.print("Enter MSAA Sample Multiplier: ");
-		}
+		JLabel widthText = new JLabel("Width:");
+		widthText.setFont(new Font("Arial", Font.BOLD, 24));
+		widthText.setBounds(50,153,100,35);
+		menu.add(widthText);
 		
-		double aaMultiplier = 0;
+		width = new JTextField(10);
+		width.setFont(new Font("Arial", Font.PLAIN, 24));
+		width.setBounds(175,150,325,35);
+		menu.add(width);
 		
-		double dInput = Double.valueOf(input.nextLine());
+		JLabel heightText = new JLabel("Height:");
+		heightText.setFont(new Font("Arial", Font.BOLD, 24));
+		heightText.setBounds(50,203,100,35);
+		menu.add(heightText);
 		
-		if(dInput == 0) {
-			printGrid(equation,maxX,minX,maxY,minY,0,resMultiplier,ssaa);
-		} else {
-			aaMultiplier = 0.5/nextPowerOf2(dInput);
-			printGrid(equation,maxX,minX,maxY,minY,aaMultiplier,resMultiplier,ssaa);
-		}
-		input.close();
+		height = new JTextField(10);
+		height.setFont(new Font("Arial", Font.PLAIN, 24));
+		height.setBounds(175,200,325,35);
+		menu.add(height);
 		
-		System.out.println("\n\n\n-----FINISHED RENDERING-----\n\n\n");
+		JLabel help = new JLabel("Following Answers Will Be Rounded To A Power Of Two.");
+		help.setFont(new Font("Arial", Font.ITALIC, 16));
+		help.setBounds(100,300,400,40);
+		menu.add(help);
+		
+		JLabel resText = new JLabel("Resolution Multplyer:");
+		resText.setFont(new Font("Arial", Font.BOLD, 20));
+		resText.setBounds(50,353,225,35);
+		menu.add(resText);
+		
+		res = new JTextField(10);
+		res.setFont(new Font("Arial", Font.PLAIN, 24));
+		res.setBounds(275,350,275,35);
+		menu.add(res);
+		
+		JLabel aaMultText = new JLabel("Anti-Alaising Samples:");
+		aaMultText.setFont(new Font("Arial", Font.BOLD, 20));
+		aaMultText.setBounds(50,428,225,35);
+		menu.add(aaMultText);
+		
+		aaMult = new JTextField(10);
+		aaMult.setFont(new Font("Arial", Font.PLAIN, 24));
+		aaMult.setBounds(275,425,275,35);
+		menu.add(aaMult);
+		
+		JLabel aaText = new JLabel("Anti-Alaising Setting:");
+		aaText.setFont(new Font("Arial", Font.BOLD, 20));
+		aaText.setBounds(50,478,250,35);
+		menu.add(aaText);
+		
+		String[] choices = {"None", "MSAA", "SSAA"};
+		antiAlaising = new JComboBox<String>(choices);
+		antiAlaising.setFont(new Font("Arial", Font.BOLD, 20));
+		antiAlaising.setBounds(275,475,100,35);
+		menu.add(antiAlaising);
+		
+		JButton bRun = new JButton("Click To Run!");
+		bRun.setBounds(50,580,500,150);
+		bRun.setFont(new Font("Arial", Font.PLAIN, 40));
+		bRun.addActionListener(new ActionListener() {
+			   @Override
+			   public void actionPerformed(ActionEvent e) {
+				   menu.setVisible(true);
+				   runGraph();
+			   }
+			});
+		menu.add(bRun);
+		
+		JLabel loadingText = new JLabel("Longer Equations/Higher Settings May Need To Load,");
+		loadingText.setFont(new Font("Arial", Font.ITALIC, 16));
+		loadingText.setBounds(100,510,600,50);
+		menu.add(loadingText);
+		
+		JLabel loadingText2 = new JLabel("Check The Percent At The Top For Info.");
+		loadingText2.setFont(new Font("Arial", Font.ITALIC, 16));
+		loadingText2.setBounds(150,535,600,50);
+		menu.add(loadingText2);
+		
+		menu.setVisible(true);
 	}
 	
 	public static void printGrid(String input,double maxX, double minX, double maxY, double minY,double decimal,double resMultiplier,boolean ssaa){
-		JFrame frame = new JFrame("Graphing Calculator (0%): " + input);
-		
 		JTextField titlePercent;
+		frame = new JDialog(menu, "");
 		
-		frame.setResizable(false);
-		
+		frame.setResizable(true);
+		int fx = 0, fy =0;
 		if ((maxX-minX)<(maxY-minY)){
-			frame.setSize((int) (800*((maxX-minX)/(maxY-minY))),(800));
+			fx = (int) (800*((maxX-minX)/(maxY-minY)));
+			fy = 800;
 		} else {
-			frame.setSize((800),(int) (800*((maxY-minY)/(maxX-minX))));
+			fx = (int) (800*((maxY-minY)/(maxX-minX)));
+			fy = 800;
 		}
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setFocusableWindowState(false);
+		
+		frame.setSize(fx,fy);
 
 	    frame.setLayout(new GridLayout((int) (Math.abs(minY*resMultiplier)+Math.abs(maxY*resMultiplier)+1), (int) (Math.abs(minX*resMultiplier)+Math.abs(maxX*resMultiplier)+1)));
 	    
+	    //System.setProperty("sun.java2d.opengl","True");
 	    
 		Color color = null;
 		boolean skipFail;
@@ -107,19 +145,19 @@ public class mainInterface {
 		double stepMultiplier = 1/resMultiplier;
 		double sampleStepMultiplier = decimal/resMultiplier;
 		for(double y = maxY; y >= minY; y-= stepMultiplier){
-			frame.setVisible(true);
-			
+			percent = (int) ((y-maxY)/(minY-maxY)*(100));
 			if (decimal!=0) {
 				if (ssaa){
-					titlePercent = new JTextField("Graphing Calculator (" + (int) ((y-maxY)/(minY-maxY)*(100)) + "%) (Resolution: " + resMultiplier + "X) (SSAA " + (int) (0.5/(decimal)) + "X) (" + input + ")"); 
+					titlePercent = new JTextField("Graphing Calculator (" + percent + "%) (Resolution: " + resMultiplier + "X) (SSAA " + (int) (0.5/(decimal)) + "X) (" + input + ")"); 
 				} else {
-					titlePercent = new JTextField("Graphing Calculator (" + (int) ((y-maxY)/(minY-maxY)*(100)) + "%) (Resolution: " + resMultiplier + "X) (MSAA " + (int) (0.5/(decimal)) + "X) (" + input + ")"); 
+					titlePercent = new JTextField("Graphing Calculator (" + percent + "%) (Resolution: " + resMultiplier + "X) (MSAA " + (int) (0.5/(decimal)) + "X) (" + input + ")"); 
 				}
 			} else {
-				titlePercent = new JTextField("Graphing Calculator (" + (int) ((y-maxY)/(minY-maxY)*(100)) + "%) (Internal Resolution Multiplier: " + resMultiplier + "X) (" + input + ")"); 
+				titlePercent = new JTextField("Graphing Calculator (" + percent + "%) (Internal Resolution Multiplier: " + resMultiplier + "X) (" + input + ")"); 
 			}
 			
 			frame.setTitle(titlePercent.getText());
+			frame.setVisible(true);
 			for(double x = minX; x <= maxX; x+=stepMultiplier){
 				JPanel tempj = new JPanel();
 				tempj.setDoubleBuffered(true);
@@ -136,8 +174,6 @@ public class mainInterface {
 					ssaaTries = 0;
 					for(double yy = 0.5/resMultiplier; yy >= -0.5/resMultiplier; yy-=sampleStepMultiplier){
 						for(double xx = -0.5/resMultiplier; xx <= 0.5/resMultiplier; xx+=sampleStepMultiplier){
-							xx = Math.round(xx / sampleStepMultiplier) * sampleStepMultiplier;
-							yy = Math.round(yy / sampleStepMultiplier) * sampleStepMultiplier;
 							temp = 0;
 							if(Calculator.calculateXYFunction(input, (x+xx), (y+yy))){
 								if(ssaa){
@@ -176,6 +212,7 @@ public class mainInterface {
 		frame.setVisible(true);
 	}
 	
+	
 	private static int nextPowerOf2(final double a)
     {
 		
@@ -186,4 +223,67 @@ public class mainInterface {
         }
         return b;
     }
+
+	
+	public static void runGraph() {
+		
+		String sEquation;
+		try {
+			sEquation = equation.getText();
+		} catch (Exception e){
+			sEquation = " ";
+		}
+		
+		double maxX;
+		double minX;
+		double maxY;
+		double minY;
+		try {
+			maxX = Double.parseDouble(width.getText());
+			minX = 0-Double.parseDouble(width.getText());
+			maxY = Double.parseDouble(height.getText());
+			minY = 0-Double.parseDouble(height.getText());
+		}catch (Exception e){
+			maxX = 5;
+			minX = -5;
+			maxY = 5;
+			minY = -5;
+		}
+		
+		double resMultiplier;
+		try{
+			resMultiplier = nextPowerOf2(Double.valueOf(res.getText()));
+		} catch (Exception e) {
+			resMultiplier = 1;
+		}
+		
+		boolean ssaa = false;
+		
+		try {
+			String aaMethod = (String) antiAlaising.getSelectedItem();
+			if(aaMethod.toLowerCase().charAt(0) == 's'){
+				ssaa = true;
+			} else if (aaMethod.toLowerCase().charAt(0) == 'n') {
+				printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,false);
+			} else {
+			}
+		} catch (Exception e){
+			printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,false);
+		}
+		
+		double aaMultiplier;
+		try{
+			aaMultiplier = nextPowerOf2(Double.valueOf(aaMult.getText()));
+		} catch (Exception e) {
+			aaMultiplier = 0;
+		}
+		
+		if(aaMultiplier == 0) {
+			printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,ssaa);
+		} else {
+			aaMultiplier = 0.5/aaMultiplier;
+			printGrid(sEquation,maxX,minX,maxY,minY,aaMultiplier,resMultiplier,ssaa);
+		}
+		
+	}
 }
