@@ -265,10 +265,12 @@ public class mainInterface {
 				ssaa = true;
 			} else if (aaMethod.toLowerCase().charAt(0) == 'n') {
 				printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,false);
+				return;
 			} else {
 			}
 		} catch (Exception e){
 			printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,false);
+			return;
 		}
 		
 		double aaMultiplier;
@@ -280,9 +282,11 @@ public class mainInterface {
 		
 		if(aaMultiplier == 0) {
 			printGrid(sEquation,maxX,minX,maxY,minY,0,resMultiplier,ssaa);
+			return;
 		} else {
 			aaMultiplier = 0.5/aaMultiplier;
 			printGrid(sEquation,maxX,minX,maxY,minY,aaMultiplier,resMultiplier,ssaa);
+			return;
 		}
 		
 	}
