@@ -60,3 +60,6 @@ Minimum Y: -10
 ![SSAA 1x Sample On Thin Line](https://github.com/Spl1ce/Java-Jframe-Graphing-Calculator/blob/master/Picture%20Examples/SSAA%201X%20Multplyer%20(Thin%20Line%20Example).png)
 
 ### A good rule of thumb is: if you are using "<" or ">" you should use SSAA, but if you are using "=" you should use MSAA.
+
+## Here is a good example of SSAA.
+![SSAA Example](https://github.com/Spl1ce/Java-Jframe-Graphing-Calculator/blob/master/Picture%20Examples/SSAA%20Example.png)
