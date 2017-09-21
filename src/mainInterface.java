@@ -60,10 +60,10 @@ public class mainInterface {
 		resText.setBounds(150,328,225,35);
 		menu.add(resText);
 		
-		Double[] Samples = {1.0, 2.0, 4.0, 5.0, 8.0, 10.0, 16.0, 20.0, 25.0, 32.0, 40.0, 50.0, 64.0}; // These numbers dont have repeating digits when 1/digits is calculated
+		Double[] Samples = {1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0}; // These numbers dont have repeating digits when 1/digits is calculated
 		res = new JComboBox<Double>(Samples);
 		res.setFont(new Font("Consolas", Font.PLAIN, 20));
-		res.setBounds(375,325,75,40);
+		res.setBounds(375,325,100,40);
 		menu.add(res);
 		
 		JLabel aaMultText = new JLabel("Anti-Alaising Samples:");
@@ -73,7 +73,7 @@ public class mainInterface {
 		
 		aaMult = new JComboBox<Double>(Samples);
 		aaMult.setFont(new Font("Consolas", Font.PLAIN, 20));
-		aaMult.setBounds(375,400,75,40);
+		aaMult.setBounds(375,400,100,40);
 		menu.add(aaMult);
 		
 		JLabel aaText = new JLabel("Anti-Alaising Setting:");
