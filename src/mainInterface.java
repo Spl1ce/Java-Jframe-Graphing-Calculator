@@ -6,8 +6,9 @@ import javax.swing.*;
 
 public class mainInterface {
 	
-	static JTextField equation, width, height, res, aaMult;
+	static JTextField equation, width, height;
 	static JComboBox<String> antiAlaising;
+	static JComboBox<Double> aaMult, res;
 	
 	static int percent;
 	
@@ -16,83 +17,79 @@ public class mainInterface {
 	
 	
 	public static void main(String[] args){
+		
+		/* Just Layout */
 		menu.getContentPane().setLayout(null);
 		
 		menu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		menu.setSize(600, 800);
+		menu.setSize(800, 800);
 		menu.setResizable(false);
 		
 		JLabel equationText = new JLabel("Equation:");
-		equationText.setFont(new Font("Arial", Font.BOLD, 24));
-		equationText.setBounds(50,53,125,35);
+		equationText.setFont(new Font("Arial", Font.BOLD, 50));
+		equationText.setBounds(50,78,300,60);
 		menu.add(equationText);
 		
 		equation = new JTextField(10);
-		equation.setFont(new Font("Arial", Font.PLAIN, 24));
-		equation.setBounds(200,50,325,35);
+		equation.setFont(new Font("Arial", Font.PLAIN, 35));
+		equation.setBounds(300,75,450,60);
 		menu.add(equation);
-		
-		
 		
 		JLabel widthText = new JLabel("Width:");
 		widthText.setFont(new Font("Arial", Font.BOLD, 24));
-		widthText.setBounds(50,153,100,35);
+		widthText.setBounds(150,203,100,35);
 		menu.add(widthText);
 		
 		width = new JTextField(10);
 		width.setFont(new Font("Arial", Font.PLAIN, 24));
-		width.setBounds(175,150,325,35);
+		width.setBounds(275,200,325,35);
 		menu.add(width);
 		
 		JLabel heightText = new JLabel("Height:");
 		heightText.setFont(new Font("Arial", Font.BOLD, 24));
-		heightText.setBounds(50,203,100,35);
+		heightText.setBounds(150,253,100,35);
 		menu.add(heightText);
 		
 		height = new JTextField(10);
 		height.setFont(new Font("Arial", Font.PLAIN, 24));
-		height.setBounds(175,200,325,35);
+		height.setBounds(275,250,325,35);
 		menu.add(height);
-		
-		JLabel help = new JLabel("Following Answers Will Be Rounded To A Power Of Two.");
-		help.setFont(new Font("Arial", Font.ITALIC, 16));
-		help.setBounds(100,300,400,40);
-		menu.add(help);
 		
 		JLabel resText = new JLabel("Resolution Multplyer:");
 		resText.setFont(new Font("Arial", Font.BOLD, 20));
-		resText.setBounds(50,353,225,35);
+		resText.setBounds(150,328,225,35);
 		menu.add(resText);
 		
-		res = new JTextField(10);
-		res.setFont(new Font("Arial", Font.PLAIN, 24));
-		res.setBounds(275,350,275,35);
+		Double[] Samples = {1.0, 2.0, 4.0, 5.0, 8.0, 10.0, 16.0, 20.0, 25.0, 32.0, 40.0, 50.0, 64.0}; // These numbers dont have repeating digits when 1/digits is calculated
+		res = new JComboBox<Double>(Samples);
+		res.setFont(new Font("Consolas", Font.PLAIN, 20));
+		res.setBounds(375,325,75,40);
 		menu.add(res);
 		
 		JLabel aaMultText = new JLabel("Anti-Alaising Samples:");
 		aaMultText.setFont(new Font("Arial", Font.BOLD, 20));
-		aaMultText.setBounds(50,428,225,35);
+		aaMultText.setBounds(150,403,225,35);
 		menu.add(aaMultText);
 		
-		aaMult = new JTextField(10);
-		aaMult.setFont(new Font("Arial", Font.PLAIN, 24));
-		aaMult.setBounds(275,425,275,35);
+		aaMult = new JComboBox<Double>(Samples);
+		aaMult.setFont(new Font("Consolas", Font.PLAIN, 20));
+		aaMult.setBounds(375,400,75,40);
 		menu.add(aaMult);
 		
 		JLabel aaText = new JLabel("Anti-Alaising Setting:");
 		aaText.setFont(new Font("Arial", Font.BOLD, 20));
-		aaText.setBounds(50,478,250,35);
+		aaText.setBounds(150,453,250,35);
 		menu.add(aaText);
 		
-		String[] choices = {"None", "MSAA", "SSAA"};
+		String[] choices = {"None (Fastest)", "MSAA", "SSAA (Slowest)"};
 		antiAlaising = new JComboBox<String>(choices);
-		antiAlaising.setFont(new Font("Arial", Font.BOLD, 20));
-		antiAlaising.setBounds(275,475,100,35);
+		antiAlaising.setFont(new Font("Arial", Font.PLAIN, 20));
+		antiAlaising.setBounds(375,450,175,40);
 		menu.add(antiAlaising);
 		
 		JButton bRun = new JButton("Click To Run!");
-		bRun.setBounds(50,580,500,150);
-		bRun.setFont(new Font("Arial", Font.PLAIN, 40));
+		bRun.setBounds(50,580,700,150);
+		bRun.setFont(new Font("Arial", Font.BOLD, 80));
 		bRun.addActionListener(new ActionListener() {
 			   @Override
 			   public void actionPerformed(ActionEvent e) {
@@ -104,12 +101,12 @@ public class mainInterface {
 		
 		JLabel loadingText = new JLabel("Longer Equations/Higher Settings May Need To Load,");
 		loadingText.setFont(new Font("Arial", Font.ITALIC, 16));
-		loadingText.setBounds(100,510,600,50);
+		loadingText.setBounds(200,495,600,50);
 		menu.add(loadingText);
 		
 		JLabel loadingText2 = new JLabel("Check The Percent At The Top For Info.");
 		loadingText2.setFont(new Font("Arial", Font.ITALIC, 16));
-		loadingText2.setBounds(150,535,600,50);
+		loadingText2.setBounds(250,525,600,50);
 		menu.add(loadingText2);
 		
 		menu.setVisible(true);
@@ -120,7 +117,9 @@ public class mainInterface {
 		frame = new JDialog(menu, "");
 		
 		frame.setResizable(true);
-		int fx = 0, fy =0;
+		
+		/* Calculate Size */
+		int fx = 0, fy =0; 
 		if ((maxX-minX)<(maxY-minY)){
 			fx = (int) (800*((maxX-minX)/(maxY-minY)));
 			fy = 800;
@@ -142,11 +141,12 @@ public class mainInterface {
 		double ssaaTries = 0;
 		double op;
 		double temp;
-		double stepMultiplier = 1/resMultiplier;
+		double stepMultiplier = 1/resMultiplier; // Decides by one to find what to use for the for loop.
 		double sampleStepMultiplier = decimal/resMultiplier;
 		for(double y = maxY; y >= minY; y-= stepMultiplier){
-			percent = (int) ((y-maxY)/(minY-maxY)*(100));
-			if (decimal!=0) {
+			percent = (int) ((y-maxY)/(minY-maxY)*(100)); // makes percent
+			
+			if (decimal!=0) { // makes title
 				if (ssaa){
 					titlePercent = new JTextField("Graphing Calculator (" + percent + "%) (Resolution: " + resMultiplier + "X) (SSAA " + (int) (0.5/(decimal)) + "X) (" + input + ")"); 
 				} else {
@@ -157,14 +157,14 @@ public class mainInterface {
 			}
 			
 			frame.setTitle(titlePercent.getText());
-			frame.setVisible(true);
+			frame.setVisible(true); // updates window title
 			for(double x = minX; x <= maxX; x+=stepMultiplier){
 				JPanel tempj = new JPanel();
 				tempj.setDoubleBuffered(true);
 				op = 0;
 				skipFail = true;
 				if (!ssaa){
-					if(Calculator.calculateXYFunction(input, (x), (y))){
+					if(Calculator.calculateXYFunction(input, (x), (y))) {
 						op = 255;
 						skipFail = false;
 					} 
@@ -176,7 +176,7 @@ public class mainInterface {
 						for(double xx = -0.5/resMultiplier; xx <= 0.5/resMultiplier; xx+=sampleStepMultiplier){
 							temp = 0;
 							if(Calculator.calculateXYFunction(input, (x+xx), (y+yy))){
-								if(ssaa){
+								if(ssaa){ // Anti-Aliasing
 									ssaaHits += 255;
 								} else {
 									temp = (255-(Math.abs(xx*(255*resMultiplier))+Math.abs(yy*(255*resMultiplier))));
@@ -211,18 +211,6 @@ public class mainInterface {
 		frame.setTitle(titlePercent.getText());
 		frame.setVisible(true);
 	}
-	
-	
-	private static int nextPowerOf2(final double a)
-    {
-		
-        int b = 1;
-        while (b < (int) a)
-        {
-            b = b << 1;
-        }
-        return b;
-    }
 
 	
 	public static void runGraph() {
@@ -252,7 +240,7 @@ public class mainInterface {
 		
 		double resMultiplier;
 		try{
-			resMultiplier = nextPowerOf2(Double.valueOf(res.getText()));
+			resMultiplier = (double) res.getSelectedItem();
 		} catch (Exception e) {
 			resMultiplier = 1;
 		}
@@ -275,7 +263,7 @@ public class mainInterface {
 		
 		double aaMultiplier;
 		try{
-			aaMultiplier = nextPowerOf2(Double.valueOf(aaMult.getText()));
+			aaMultiplier = (double) aaMult.getSelectedItem();
 		} catch (Exception e) {
 			aaMultiplier = 0;
 		}
